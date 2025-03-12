@@ -16,8 +16,11 @@ dolar2024 = { # fonte: https://idealsoftwares.com.br/indices/dolar2024.html
 def deposita_na_poupança_converte_em_dolar_mensal(valormensal, saldo=0, meses=0, investido=0, juros=0):
     meses_lista = list(dolar2024.keys())
 
-    anos = meses // 12
-    meses_restantes = meses % 12
+    if saldo >= 1000000 / 5: # ~200 mil dolar
+        anos = meses // 12
+        meses_restantes = meses % 12
+        return anos, meses_restantes, investido, juros, saldo
+
     
     # receber rendimento na conta
     
@@ -27,6 +30,25 @@ def deposita_na_poupança_converte_em_dolar_mensal(valormensal, saldo=0, meses=0
     saldo += valor_em_dolar
     investido += valormensal
 
-    # depositar na conta
+    # calcular rendimento mensal
+    
+    if meses > 0:
+        rendimento = saldo * 0.0005
+        saldo += rendimento
+        juros += rendimento
 
-    return saldo
+    # montande de 100 mil reais
+
+    if saldo >= 20000 and saldo - valor_em_dolar < 20000:
+        print(f"Marco de $20,000.00 atingido em {meses // 12} anos e {meses % 12} meses.")
+        print(f"Valor investido até o marco: ${investido:.2f}")
+        print(f"Juros compostos até o marco: ${juros:.2f}")
+
+    return deposita_na_poupança_converte_em_dolar_mensal(valormensal, saldo, meses + 1, investido, juros)
+
+# chamando a função
+
+valor_mensal = 500
+anos, meses_restantes, investido, juros, saldo_final = deposita_na_poupança_converte_em_dolar_mensal(valor_mensal)
+
+# professor, a recursividade é limitada :( para atingir os saldos desejados
