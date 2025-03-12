@@ -13,14 +13,19 @@ dolar2024 = { # fonte: https://idealsoftwares.com.br/indices/dolar2024.html
     "12": 6.06
 }
 
-def deposita_na_poupança_converte_em_dolar_mensal(valor):
-    saldo = 0
+def deposita_na_poupança_converte_em_dolar_mensal(valormensal, saldo=0, meses=0, investido=0, juros=0):
+    meses_lista = list(dolar2024.keys())
 
-    # acessar valor da chave para do mÊs de acordo com a recursividade
-    conversao = valor / taxa
-    saldo += valor
-
+    anos = meses // 12
+    meses_restantes = meses % 12
+    
     # receber rendimento na conta
+    
+    mes_atual = meses_lista[meses % 12]
+    taxa_cambio = dolar2024[mes_atual]
+    valor_em_dolar = valormensal / taxa_cambio
+    saldo += valor_em_dolar
+    investido += valormensal
 
     # depositar na conta
 
