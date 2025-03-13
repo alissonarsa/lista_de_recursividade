@@ -13,42 +13,39 @@ bitcoin2024 = { # fonte: https://br.investing.com/crypto/bitcoin/btc-brl-histori
     "12": 583265
 }
 
-def investir_em_bitcoin(valor_mensal, saldo_biticoin=0, meses=0, investido=0):
+def investir_em_bitcoin(valor_mensal, saldo_bitcoin=0, meses=0, investido=0, marco_100k=False, marco_1bitcoin=False):
     meses_lista = list(bitcoin2024.keys())
 
-    if saldo >= 1000000 / 5: # ~200 mil dolar
+    saldo_reais = saldo_bitcoin * bitcoin2024[meses_lista[meses % 12]]
+    
+    #  1M de bitcoin em reais
+
+    if saldo_reais >= 1000000:
         anos = meses // 12
         meses_restantes = meses % 12
-        return anos, meses_restantes, investido, juros, saldo
-
+        return anos, meses_restantes, investido, saldo_reais, saldo_bitcoin
     
-    # receber rendimento na conta
+    # adicionar valor mensal
     
     mes_atual = meses_lista[meses % 12]
-    taxa_cambio = dolar2024[mes_atual]
-    valor_em_dolar = valormensal / taxa_cambio
-    saldo += valor_em_dolar
-    investido += valormensal
+    preco_btc = bitcoin2024[mes_atual]
+    valor_em_bitcoin = valor_mensal / preco_btc
+    saldo_bitcoin += valor_em_bitcoin
+    investido += valor_mensal
 
-    # calcular rendimento mensal
+    # verifica se tem 100 mil
     
-    if meses > 0:
-        rendimento = saldo * 0.0005
-        saldo += rendimento
-        juros += rendimento
+    saldo_reais = saldo_bitcoin * bitcoin2024[mes_atual]
+    if not marco_100k and saldo_reais >= 100000:
+        marco_100k = True
+        print(f"Montante de R$ 100.000,00 reais em bitcoin atingido em {meses // 12} anos e {meses % 12} meses.")
+        print(f"Valor investido até o montante: R$ {investido:.2f}")
+    
+    # 1 Bitcoin
 
-    # montande de 100 mil reais
+    if not marco_1bitcoin and saldo_bitcoin >= 1:
+        marco_1bitcoin = True
+        print(f"Marco de 1 Bitcoin atingido em {meses // 12} anos e {meses % 12} meses.")
+        print(f"Valor investido até o montante: R$ {investido:.2f}")
 
-    if saldo >= 20000 and saldo - valor_em_dolar < 20000:
-        print(f"Marco de $20,000.00 atingido em {meses // 12} anos e {meses % 12} meses.")
-        print(f"Valor investido até o marco: ${investido:.2f}")
-        print(f"Juros compostos até o marco: ${juros:.2f}")
-
-    return deposita_na_poupança_converte_em_dolar_mensal(valormensal, saldo, meses + 1, investido, juros)
-
-# chamando a função
-
-valor_mensal = 500
-anos, meses_restantes, investido, juros, saldo_final = deposita_na_poupança_converte_em_dolar_mensal(valor_mensal)
-
-# professor, a recursividade é limitada :( para atingir os saldos desejados
+    return investir_em_bitcoin(valor_mensal, saldo_bitcoin, meses + 1, investido, marco_100k, marco_1bitcoin)
