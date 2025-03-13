@@ -49,3 +49,15 @@ def investir_em_bitcoin(valor_mensal, saldo_bitcoin=0, meses=0, investido=0, mar
         print(f"Valor investido até o montante: R$ {investido:.2f}")
 
     return investir_em_bitcoin(valor_mensal, saldo_bitcoin, meses + 1, investido, marco_100k, marco_1bitcoin)
+
+# função para testar
+
+def main():
+    valor_mensal = 250  # Valor mensal a ser investido
+    resultado = investir_em_bitcoin(valor_mensal)
+    print(f"Resultado final: {resultado}")
+
+if __name__ == "__main__":
+    main()
+
+# professor mesmo problema da função anterior, não consegui resolver o problema de recursão
