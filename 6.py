@@ -17,10 +17,8 @@ acoes2024 = {
     }
 }
 
-def acoes(montante=0, meses=0, investido=0, dividendos=0, bateu_100k=None, bateu_1m=None, max_meses=240):
+def acoes(montante=0, meses=0, investido=0, dividendos=0, cotas=0, bateu_100k=None, bateu_1m=None, max_meses=240):
     investimento_mensal = 80
-    rendimento_mensal = 0.01  # 1% - rendimento
-    cotas = investido / 10
 
     # Adc o valor mensal
     
@@ -29,7 +27,12 @@ def acoes(montante=0, meses=0, investido=0, dividendos=0, bateu_100k=None, bateu
     
     # dividendos mensais
 
-    dividendos_mensais = sum(acao["dividendos_mensais"] * cotas for acao in acoes2024.values())
+    dividendos_mensais = 0
+    for acao in acoes2024.values():
+        preco_atual = acao["precos"][meses % 12]
+        cotas += investimento_mensal / preco_atual
+        dividendos_mensais += cotas * preco_atual * acao["dividendos_mensais"]
+        
     dividendos += dividendos_mensais
     
     # Calcula o montante total
