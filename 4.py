@@ -39,10 +39,12 @@ def deposita_na_poupança_converte_em_dolar_mensal(valormensal, saldo=0, meses=0
 
     # montande de 100 mil reais
 
-    if saldo >= 20000 and saldo - valor_em_dolar < 20000:
+    if saldo >= 200000 and saldo - valor_em_dolar < 200000:
         print(f"Marco de $20,000.00 atingido em {meses // 12} anos e {meses % 12} meses.")
         print(f"Valor investido até o marco: ${investido:.2f}")
         print(f"Juros compostos até o marco: ${juros:.2f}")
+        print("")
+        
 
     return deposita_na_poupança_converte_em_dolar_mensal(valormensal, saldo, meses + 1, investido, juros)
 
