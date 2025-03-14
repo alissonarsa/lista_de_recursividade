@@ -21,7 +21,7 @@ def acoes(montante=0, meses=0, investido=0, dividendos=0, cotas=0, bateu_100k=No
     investimento_mensal = 80
 
     # Adc o valor mensal
-    
+
     investido += investimento_mensal
     cotas += investimento_mensal / 10
     
@@ -37,7 +37,7 @@ def acoes(montante=0, meses=0, investido=0, dividendos=0, cotas=0, bateu_100k=No
     
     # Calcula o montante total
 
-    montante = investido + dividendos + (montante * (1 + rendimento_mensal))
+    montante = investido + dividendos
     meses += 1
     
     # montante de R$ 100.000,00
@@ -55,16 +55,24 @@ def acoes(montante=0, meses=0, investido=0, dividendos=0, cotas=0, bateu_100k=No
     if bateu_100k and bateu_1m:
         print(f"100k: {bateu_100k[0]} anos e {bateu_100k[1]} meses, Investido: R${bateu_100k[2]:.2f}, Div: R${bateu_100k[3]:.2f}, Total: R${bateu_100k[4]:.2f}")
         print(f"1M: {bateu_1m[0]} anos e {bateu_1m[1]} meses, Investido: R${bateu_1m[2]:.2f}, Div: R${bateu_1m[3]:.2f}, Total: R${bateu_1m[4]:.2f}")
+        print(f"Quantidade de cotas: {cotas:.2f}")
         return
     
-    # eses para chegar ao montantantes
+    # esses para chegar ao montantantes
+
     if meses >= max_meses:
         print(f"Terminado após {max_meses} meses.")
+        if bateu_100k:
+            print(f"100k: {bateu_100k[0]} anos e {bateu_100k[1]} meses, Investido: R${bateu_100k[2]:.2f}, Div: R${bateu_100k[3]:.2f}, Total: R${bateu_100k[4]:.2f}")
+        if bateu_1m:
+            print(f"1M: {bateu_1m[0]} anos e {bateu_1m[1]} meses, Investido: R${bateu_1m[2]:.2f}, Div: R${bateu_1m[3]:.2f}, Total: R${bateu_1m[4]:.2f}")
+        print(f"Quantidade de cotas: {cotas:.2f}")
         return
     
     # Chama a função recursivamente para o próximo mês
-    acoes(montante, meses, investido, dividendos, bateu_100k, bateu_1m, max_meses)
 
-#chamar a função
+    acoes(montante, meses, investido, dividendos, cotas, bateu_100k, bateu_1m, max_meses)
+
+# chamar a função
 print("AÇÕES")
 acoes()
